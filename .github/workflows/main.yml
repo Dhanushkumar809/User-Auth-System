@@ -17,6 +17,14 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
+      - name: Check Deployment Hook Secret
+        run: |
+          if [ -z "${{ secrets.RENDER_BACKEND_HOOK }}" ]; then
+            echo "::error::RENDER_BACKEND_HOOK secret is not set. Deployment will fail."
+            exit 1
+          fi
+          echo "RENDER_BACKEND_HOOK is set."
+        
       # IMPORTANT: If your backend is hosted on a service like Render, 
       # you typically trigger a deployment hook (a secret URL).
       - name: Trigger Backend Deployment (Example using cURL)
@@ -24,13 +32,13 @@ jobs:
           # This secret must be set in GitHub Settings > Secrets
           RENDER_DEPLOY_HOOK: ${{ secrets.RENDER_BACKEND_HOOK }}
         run: |
-          echo "Triggering deployment for the server..."
+          echo "Triggering deployment for the server to Render via hook..."
           # Replace this cURL command with the actual deployment method for your host
           curl -X POST ${RENDER_DEPLOY_HOOK}
 
       # If you use a different service (e.g., Railway, Heroku), this step will change.
-      - name: Backend Deployed Successfully
-        run: echo "Backend deployment triggered. Waiting for service to come online..."
+      - name: Backend Deployment Triggered
+        run: echo "Backend deployment triggered successfully."
         
   # ----------------------------------------------------------------------
   # JOB 2: Deploy Frontend (React/Vite)

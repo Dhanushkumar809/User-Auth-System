@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Auth Project | Loading</title>
+    <style>
+      /* --- GLOBAL STYLES & GRADIENT BACKGROUND --- */
+      body, html {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        overflow: hidden;
+        /* Subtle Gradient Background */
+        background: linear-gradient(135deg, #f0f2f5 0%, #ffffff 100%);
+      }
+      
+      /* --- LOADER CONTAINER --- */
+      .loader-container {
+        position: fixed;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        /* Background matches the body gradient */
+        background: linear-gradient(135deg, #f0f2f5 0%, #ffffff 100%);
+        transition: opacity 0.7s ease-out; /* Slower, smoother fade out */
+        z-index: 9999;
+      }
+      
+      /* --- HIDDEN ROOT --- */
+      #root {
+        display: none; 
+        width: 100%;
+        height: 100%;
+      }
+
+      /* --- LOGO ANIMATION --- */
+      .logo {
+        width: 100px; /* Slightly smaller for focus */
+        height: auto;
+        /* Add a soft pulse animation to the logo */
+        animation: pulse 1.5s infinite alternate;
+      }
+
+      @keyframes pulse {
+        from {
+          transform: scale(1);
+          opacity: 0.9;
+        }
+        to {
+          transform: scale(1.05);
+          opacity: 1;
+        }
+      }
+      
+      /* --- SPINNER STYLE --- */
+      .spinner {
+        width: 40px;
+        height: 40px;
+        /* Using the application's primary blue color */
+        border: 4px solid rgba(74, 103, 255, 0.25); 
+        border-top-color: #4a67ff; 
+        border-radius: 50%;
+        animation: spin 0.8s linear infinite; /* Faster spin */
+        margin: 25px 0 15px 0;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      
+      /* --- TEXT STYLE --- */
+      .loading-text {
+        font-size: 1rem;
+        color: #555;
+        font-weight: 500;
+        letter-spacing: 0.5px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="loader-container">
+      <img src="/logo.png" alt="Project Logo" class="logo"/>
+      
+      <div class="spinner"></div> 
+
+      <div class="loading-text">Loading your project...</div>
+    </div>
+
+    <div id="root"></div>
+
+    <script type="module">
+      window.addEventListener('DOMContentLoaded', () => {
+        const loader = document.querySelector('.loader-container');
+        const root = document.getElementById('root');
+        
+        // This simulates the time needed to fetch your JS bundles.
+        // We'll wait 1.2 seconds to ensure the animation is visible.
+        setTimeout(() => {
+          // 1. Start the fade-out transition
+          loader.style.opacity = '0';
+          
+          // 2. After the transition finishes (0.7s), hide the loader and show the app.
+          setTimeout(() => {
+            loader.style.display = 'none';
+            root.style.display = 'block'; 
+          }, 700); 
+        }, 1200); 
+      });
+    </script>
+  </body>
+</html>
